@@ -241,20 +241,20 @@
       xml += currentIndent + nextIndent + resource._links[rel].toXML() + LF;
     }
 
+    // Add embedded
+    for (var embed in resource._embedded) {
+      // [Naive singularize](https://github.com/naholyr/js-hal#why-this-crappy-singularplural-management%E2%80%AF)
+      var rel = embed.replace(/s$/, '');
+      resource._embedded[embed].forEach(function (res) {
+        xml += resourceToXml(res, rel, currentIndent + nextIndent, currentIndent + nextIndent + nextIndent) + LF;
+      });
+    }
+
     // Add properties as tags
     for (var prop in resource) {
       if (resource.hasOwnProperty(prop) && prop !== '_links' && prop !== '_embedded') {
         xml += currentIndent + nextIndent + '<' + prop + '>' + String(resource[prop]) + '</' + prop + '>' + LF;
       }
-    }
-
-    // Add embedded
-    for (var embed in resource._embedded) {
-    // [Naive singularize](https://github.com/naholyr/js-hal#why-this-crappy-singularplural-management%E2%80%AF)
-      var rel = embed.replace(/s$/, '');
-      resource._embedded[embed].forEach(function (res) {
-        xml += resourceToXml(res, rel, currentIndent + nextIndent, currentIndent + nextIndent + nextIndent) + LF;
-      });
     }
 
     // Close tag and return the shit
@@ -268,7 +268,7 @@
    * @param String indent → how you want your XML to be indented
    */
   Resource.prototype.toXML = function (indent) {
-    return resourceToXml(this, null, '', indent);
+    return resourceToXml(this, null, '', indent || '');
   };
 
   /**
