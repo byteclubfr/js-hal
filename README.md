@@ -17,6 +17,16 @@ console.log(resource.toJSON());
 </script>
 ```
 
+#### Compatibility
+
+Don't know, didn't test. It may not even work on the browser, who knows ?
+
+OK, more seriously you'll require:
+* `JSON.stringify`
+* `Array.prototype.forEach`
+* `Array.prototype.reduce`
+* `Object.prototype.hasOwnProperty`
+
 ### In Node.JS
 
 ```sh
