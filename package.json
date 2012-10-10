@@ -1,0 +1,23 @@
+{
+  "author": "Nicolas Chambrier <naholyr@gmail.com> (http://naholyr.fr)",
+  "name": "hal",
+  "description": "Hypertext Application Language",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/naholyr/js-hal.git"
+  },
+  "main": "hal.js",
+  "scripts": {
+    "test": "./node_modules/.bin/_mocha -R list"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "*",
+    "chai": "*"
+  },
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  }
+}
