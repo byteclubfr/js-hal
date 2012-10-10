@@ -230,3 +230,7 @@ Calling `ordersCollection.toXML('  ')`:
   </resource>
 </resource>
 ```
+
+Yes, JSON seems a lot more verbose, but it's because of the spaces. In production you won't add indentation and then JSON is 517 bytes long, versus 625 bytes of XML.
+
+Not yet, XML, not yet.
