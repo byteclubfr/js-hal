@@ -9,7 +9,7 @@
   },
   "main": "hal.js",
   "scripts": {
-    "test": "./node_modules/.bin/_mocha -R list"
+    "test": "./node_modules/.bin/_mocha -R list -u bdd"
   },
   "dependencies": {},
   "devDependencies": {
