@@ -58,10 +58,10 @@
   Link.prototype.toJSON = function () {
     // Note: calling "JSON.stringify(this)" will fail as JSON.stringify itself calls toJSON()
     // We need to copy properties to a new object
-    return JSON.stringify(Object.keys(this).reduce((function (object, key) {
+    return Object.keys(this).reduce((function (object, key) {
       object[key] = this[key];
       return object;
-    }).bind(this), {}));
+    }).bind(this), {});
   };
 
   /**
@@ -167,10 +167,9 @@
         if (Object.keys(resource._links).length > 0) {
           // Note: we need to copy data to remove "rel" property without corrupting original Link object
           result._links = Object.keys(resource._links).reduce(function (links, rel) {
-            links[rel] = Object.keys(resource._links[rel]).reduce(function (link, key) {
-              if (key !== 'rel') link[key] = resource._links[rel][key];
-              return link;
-            }, {});
+            var link = resource._links[rel].toJSON();
+            delete link.rel;
+            links[rel] = link;
             return links;
           }, {});
         }
@@ -199,8 +198,10 @@
 
   /**
    * JSON representation of the resource
+   * Requires "JSON.stringify()"
+   * @param String indent → how you want your JSON to be indented
    */
-  Resource.prototype.toJSON = function () {
+  Resource.prototype.toJSON = function (indent) {
     return resourceToJsonObject(this);
   };
 
@@ -271,11 +272,9 @@
 
   /**
    * Returns the JSON representation indented using tabs
-   * Requires "JSON.stringify()"
-   * @param String indent → how you want your JSON to be indented
    */
-  Resource.prototype.toString = function (indent) {
-    return JSON.stringify(this, null, indent);
+  Resource.prototype.toString = function () {
+    return this.toJSON('\t');
   };
 
   /**
