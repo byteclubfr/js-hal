@@ -199,11 +199,9 @@
 
   /**
    * JSON representation of the resource
-   * Requires "JSON.stringify()"
-   * @param String indent → how you want your JSON to be indented
    */
-  Resource.prototype.toJSON = function (indent) {
-    return JSON.stringify(resourceToJsonObject(this), null, indent);
+  Resource.prototype.toJSON = function () {
+    return resourceToJsonObject(this);
   };
 
   /**
@@ -273,9 +271,11 @@
 
   /**
    * Returns the JSON representation indented using tabs
+   * Requires "JSON.stringify()"
+   * @param String indent → how you want your JSON to be indented
    */
-  Resource.prototype.toString = function () {
-    return this.toJSON('\t');
+  Resource.prototype.toString = function (indent) {
+    return JSON.stringify(this, null, indent);
   };
 
   /**

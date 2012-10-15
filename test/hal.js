@@ -99,8 +99,6 @@ describe('HAL', function () {
       });
 
       it('should export as JSON', function () {
-        // Note: this test may fail as Object.keys() is not supposed to preserve order
-        // We are theoricall unable to guess order of "_links" for example
         var json =
           // Links first
           '{"_links":{"self":{"href":"/orders"},"next":{"href":"/orders?page=2"},"find":{"href":"/orders{?id}","templated":true}},'
@@ -112,7 +110,10 @@ describe('HAL', function () {
           + ']}'
           // Properties finally
           + ',"currentlyProcessing":14,"shippedToday":20}';
-        expect(resource.toJSON()).to.equal(json);
+        expect(resource.toJSON()).to.eql(JSON.parse(json));
+        // Note: this test may fail as Object.keys() is not supposed to preserve order
+        // We are theoricall unable to guess order of "_links" for example
+        expect(JSON.stringify(resource)).to.eql(json);
       });
 
       it('should export as XML', function () {
