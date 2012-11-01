@@ -39,20 +39,6 @@
   }
 
   /**
-   * XML representation of a link
-   */
-  Link.prototype.toXML = function () {
-    var xml = '<link';
-    for (var attr in this) {
-      if (this.hasOwnProperty(attr)) {
-        xml += ' ' + attr + '="' + escapeXml(this[attr]) + '"';
-      }
-    }
-    xml += ' />';
-    return xml;
-  }
-
-  /**
    * JSON representation of a link
    */
   Link.prototype.toJSON = function () {
@@ -120,13 +106,13 @@
 
     if (typeof this._links[link.rel] === "undefined")
         this._links[link.rel] = link;
-    else 
+    else
       if (Object.prototype.toString.apply(this._links[link.rel]) === '[object Array]')
         this._links[link.rel].push(link)
       else {
         old_link = this._links[link.rel]
         this._links[link.rel] = new Array(old_link,link)
-      } 
+      }
 
     return this;
   };
@@ -137,10 +123,6 @@
    * @param Resource|Resource[] → resource(s) to embed
    */
   Resource.prototype.embed = function (rel, resource) {
-    // [Naive pluralize](https://github.com/naholyr/js-hal#why-this-crappy-singularplural-management%E2%80%AF)
-    if (rel.substring(rel.length - 1) !== 's') {
-      rel += 's';
-    }
 
     // Initialize embedded container
     if (this._embedded[rel] && !Array.isArray(this._embedded[rel])) {
@@ -177,7 +159,7 @@
           result._links = Object.keys(resource._links).reduce(function (links, rel) {
             if (Object.prototype.toString.apply(resource._links[rel]) === '[object Array]') {
               links[rel] = new Array()
-              for (var i=0; i < resource._links[rel].length; i++) 
+              for (var i=0; i < resource._links[rel].length; i++)
                 links[rel].push(resource._links[rel][i].toJSON())
             } else {
               var link = resource._links[rel].toJSON();
@@ -219,70 +201,6 @@
     return resourceToJsonObject(this);
   };
 
-  /**
-   * Escape an XML string: encodes double quotes and tag enclosures
-   * @private
-   */
-  function escapeXml (string) {
-    return String(string).replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  };
-
-  /**
-   * Convert a resource to its XML representation
-   * @private
-   * @param Resource resource
-   * @param String rel → relation identifier for embedded object
-   * @param String currentIdent → current indentation
-   * @param String nextIndent → next indentation
-   */
-  function resourceToXml (resource, rel, currentIndent, nextIndent) {
-    // Do not add line feeds if no indentation is asked
-    var LF = (currentIndent || nextIndent) ? '\n' : '';
-
-    // Resource tag
-    var xml = currentIndent + '<resource';
-
-    // Resource attributes: rel, href, name
-    if (rel) xml += ' rel="' + escapeXml(rel) + '"';
-    if (resource.href || resource._links.self) xml += ' href="' + escapeXml(resource.href || resource._links.self.href) + '"';
-    if (resource.name) xml += ' name="' + escapeXml(resource.name) + '"';
-    xml += '>' + LF;
-
-    // Add <link> tags
-    for (var rel in resource._links) {
-      if (!resource.href && rel === 'self') continue;
-      xml += currentIndent + nextIndent + resource._links[rel].toXML() + LF;
-    }
-
-    // Add embedded
-    for (var embed in resource._embedded) {
-      // [Naive singularize](https://github.com/naholyr/js-hal#why-this-crappy-singularplural-management%E2%80%AF)
-      var rel = embed.replace(/s$/, '');
-      resource._embedded[embed].forEach(function (res) {
-        xml += resourceToXml(res, rel, currentIndent + nextIndent, currentIndent + nextIndent + nextIndent) + LF;
-      });
-    }
-
-    // Add properties as tags
-    for (var prop in resource) {
-      if (resource.hasOwnProperty(prop) && prop !== '_links' && prop !== '_embedded') {
-        xml += currentIndent + nextIndent + '<' + prop + '>' + String(resource[prop]) + '</' + prop + '>' + LF;
-      }
-    }
-
-    // Close tag and return the shit
-    xml += currentIndent + '</resource>';
-
-    return xml;
-  }
-
-  /**
-   * XML representation of the resource
-   * @param String indent → how you want your XML to be indented
-   */
-  Resource.prototype.toXML = function (indent) {
-    return resourceToXml(this, null, '', indent || '');
-  };
 
   /**
    * Returns the JSON representation indented using tabs
