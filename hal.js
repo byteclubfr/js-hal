@@ -18,7 +18,7 @@
 
       // If value is a hashmap, just copy properties
       if (!value.href) throw new Error('Required <link> attribute "href"');
-      var expectedAttributes = ['rel', 'href', 'name', 'hreflang', 'title', 'templated'];
+      var expectedAttributes = ['rel', 'href', 'name', 'hreflang', 'title', 'templated','icon','align'];
       for (var attr in value) {
         if (value.hasOwnProperty(attr)) {
           if (!~expectedAttributes.indexOf(attr)) {
@@ -118,7 +118,13 @@
       link = Link(arguments[0], arguments[1]);
     }
 
-    this._links[link.rel] = link;
+    if (typeof this._links[link.rel] === "undefined") {
+      this._links[link.rel] = link;
+    } else if (Array.isArray(this._links[link.rel])) {
+      this._links[link.rel].push(link)
+    } else {
+      this._links[link.rel] = [this._links[link.rel], link]
+    } 
 
     return this;
   };
@@ -167,9 +173,15 @@
         if (Object.keys(resource._links).length > 0) {
           // Note: we need to copy data to remove "rel" property without corrupting original Link object
           result._links = Object.keys(resource._links).reduce(function (links, rel) {
-            var link = resource._links[rel].toJSON();
-            delete link.rel;
-            links[rel] = link;
+            if (Array.isArray(resource._links[rel])) {
+              links[rel] = new Array()
+              for (var i=0; i < resource._links[rel].length; i++) 
+                links[rel].push(resource._links[rel][i].toJSON())
+            } else {
+              var link = resource._links[rel].toJSON();
+              links[rel] = link;
+              delete link.rel;
+            }
             return links;
           }, {});
         }
