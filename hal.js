@@ -110,7 +110,7 @@
       if (Object.prototype.toString.apply(this._links[link.rel]) === '[object Array]')
         this._links[link.rel].push(link)
       else {
-        old_link = this._links[link.rel]
+        var old_link = this._links[link.rel]
         this._links[link.rel] = new Array(old_link,link)
       }
 
