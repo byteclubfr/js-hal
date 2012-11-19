@@ -1,4 +1,4 @@
-# JS HAL [![Travis CI Status](https://travis-ci.org/naholyr/js-hal.png "You Shall Pass!")](https://travis-ci.org/#!/naholyr/js-hal)
+# JS HAL [![Travis CI Status](https://travis-ci.org/lmtm/js-hal.png "You Shall Pass!")](https://travis-ci.org/#!/lmtm/js-hal)
 
 [HAL](http://stateless.co/hal_specification.html) is a hypermedia-aware serialization format, which can be represented using JSON and XML format.
 
