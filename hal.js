@@ -107,7 +107,7 @@
     if (typeof this._links[link.rel] === "undefined")
         this._links[link.rel] = link;
     else
-      if (Object.prototype.toString.apply(this._links[link.rel]) === '[object Array]')
+      if (Array.isArray(this._links[link.rel]))
         this._links[link.rel].push(link)
       else {
         var old_link = this._links[link.rel]
@@ -157,7 +157,7 @@
         if (Object.keys(resource._links).length > 0) {
           // Note: we need to copy data to remove "rel" property without corrupting original Link object
           result._links = Object.keys(resource._links).reduce(function (links, rel) {
-            if (Object.prototype.toString.apply(resource._links[rel]) === '[object Array]') {
+            if (Array.isArray(resource._links[rel])) {
               links[rel] = new Array()
               for (var i=0; i < resource._links[rel].length; i++)
                 links[rel].push(resource._links[rel][i].toJSON())
