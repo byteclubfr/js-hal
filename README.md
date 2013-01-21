@@ -63,7 +63,7 @@ This class designs a HAL link:
 
 Adds a new link to resource.
 
-### `Resource#embed (rel, resource[s])`
+### `Resource#embed (rel, resource[s] [, pluralize])`
 
 Embeds other resource(s) to current resource.
 

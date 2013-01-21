@@ -124,7 +124,7 @@
       this._links[link.rel].push(link)
     } else {
       this._links[link.rel] = [this._links[link.rel], link]
-    } 
+    }
 
     return this;
   };
@@ -134,9 +134,11 @@
    * @param String rel → the relation identifier (should be plural)
    * @param Resource|Resource[] → resource(s) to embed
    */
-  Resource.prototype.embed = function (rel, resource) {
+  Resource.prototype.embed = function (rel, resource, pluralize) {
+    if (typeof pluralize === 'undefined') pluralize = true;
+
     // [Naive pluralize](https://github.com/naholyr/js-hal#why-this-crappy-singularplural-management%E2%80%AF)
-    if (rel.substring(rel.length - 1) !== 's') {
+    if (pluralize && rel.substring(rel.length - 1) !== 's') {
       rel += 's';
     }
 
@@ -175,7 +177,7 @@
           result._links = Object.keys(resource._links).reduce(function (links, rel) {
             if (Array.isArray(resource._links[rel])) {
               links[rel] = new Array()
-              for (var i=0; i < resource._links[rel].length; i++) 
+              for (var i=0; i < resource._links[rel].length; i++)
                 links[rel].push(resource._links[rel][i].toJSON())
             } else {
               var link = resource._links[rel].toJSON();
