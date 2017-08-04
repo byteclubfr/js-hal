@@ -2,14 +2,14 @@
   "author": "Nicolas Chambrier <naholyr@gmail.com> (http://naholyr.fr)",
   "name": "hal",
   "description": "Hypertext Application Language",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
-    "url": "git://github.com/naholyr/js-hal.git"
+    "url": "git://github.com/byteclubfr/js-hal.git"
   },
   "main": "hal.js",
   "scripts": {
-    "test": "./node_modules/.bin/_mocha -R list -u bdd"
+    "test": "_mocha -R list -u bdd"
   },
   "dependencies": {},
   "devDependencies": {
@@ -19,5 +19,13 @@
   "optionalDependencies": {},
   "engines": {
     "node": "*"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/byteclubfr/js-hal/issues"
+  },
+  "homepage": "https://github.com/byteclubfr/js-hal#readme",
+  "directories": {
+    "test": "test"
+  },
+  "license": "MIT"
 }
