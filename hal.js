@@ -155,7 +155,7 @@
         return new Resource(object);
       }));
     } else {
-      this._embedded[rel].push(Resource(resource));
+      this._embedded[rel] = Resource(resource);
     }
 
     return this;
