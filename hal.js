@@ -18,7 +18,7 @@
 
       // If value is a hashmap, just copy properties
       if (!value.href) throw new Error('Required <link> attribute "href"');
-      var expectedAttributes = ['rel', 'href', 'name', 'hreflang', 'title', 'templated','icon','align'];
+      var expectedAttributes = ['rel', 'href', 'name', 'hreflang', 'title', 'templated', 'icon', 'align', 'method'];
       for (var attr in value) {
         if (value.hasOwnProperty(attr)) {
           if (!~expectedAttributes.indexOf(attr)) {
