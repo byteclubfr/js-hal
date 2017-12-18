@@ -103,7 +103,7 @@
 
     // If we have a URI, add this link
     // If not, we won't have a valid object (this may lead to a fatal error later)
-    if (uri) this.link(new Link('self', uri));
+    if (uri) this._link(new Link('self', uri));
   };
 
   /**
@@ -113,7 +113,7 @@
    * Alternative usage: function (rel, value)
    * @see Link
    */
-  Resource.prototype.link = function (link) {
+  Resource.prototype._link = function (link) {
     if (arguments.length > 1) {
       link = Link(arguments[0], arguments[1]);
     }
