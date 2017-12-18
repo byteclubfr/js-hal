@@ -54,7 +54,7 @@ describe('HAL', function () {
     });
     it('should add link', function () {
       var res = new hal.Resource({}, 'href');
-      expect(res.link.bind(res, 'edit', '/edit')).to.not.throw(Error);
+      expect(res._link.bind(res, 'edit', '/edit')).to.not.throw(Error);
       expect(res._links).to.have.property('edit');
       expect(res._links.edit.href).to.equal('/edit');
     });
@@ -76,24 +76,24 @@ describe('HAL', function () {
           currentlyProcessing: 14,
           shippedToday: 20
         }, "/orders");
-        resource.link("next", "/orders?page=2");
-        resource.link("find", {href: "/orders{?id}", templated: true});
+        resource._link("next", "/orders?page=2");
+        resource._link("find", {href: "/orders{?id}", templated: true});
 
         var order123 = new hal.Resource({
           total: 30.00,
           currency: "USD",
           status: "shipped"
         }, "/orders/123");
-        order123.link(new hal.Link("basket", "/baskets/98712"));
-        order123.link(new hal.Link("customer", {href: "/customers/7809"}));
+        order123._link(new hal.Link("basket", "/baskets/98712"));
+        order123._link(new hal.Link("customer", {href: "/customers/7809"}));
 
         var order124 = new hal.Resource({
           total: 20.00,
           currency: "USD",
           status: "processing"
         }, "/orders/124");
-        order124.link("basket", "/baskets/97213");
-        order124.link("customer", "/customers/12369");
+        order124._link("basket", "/baskets/97213");
+        order124._link("customer", "/customers/12369");
 
         resource.embed("orders", [order123, order124]);
       });
